@@ -12,18 +12,22 @@
 	<artifactId>GeRDI-parent-harvester</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
 	<name>GeRDI Parent Pom for Harvesters</name>
+	<description>This is a parent pom for GeRDI harvester implementations</description>
+	
+	<properties>
+		<compiler.plugin.version>3.6.1</compiler.plugin.version>
+		<war.plugin.version>3.1.0</war.plugin.version>
+		<restfulharvester.dependency.version>1.0.0-SNAPSHOT</restfulharvester.dependency.version>
+	</properties>
 	
 	<build>
-        <finalName>${project.artifactId}_${project.version}</finalName>
-        <directory>target/</directory>
         <plugins>			
-			<!-- Compile in UTF-8 with Java 8 -->
+			<!-- Compile Java -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>${compiler.plugin.version}</version>
 				<configuration>
 				  <source>${java.version}</source>
 				  <target>${java.version}</target>
@@ -34,7 +38,7 @@
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${war.plugin.version}</version>
 				<configuration>
 					<outputDirectory>${project.build.directory}</outputDirectory>
 				</configuration>
@@ -46,7 +50,15 @@
 		<dependency>
 			<groupId>de.gerdi-project</groupId>
 			<artifactId>RestfulHarvester-Library</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${restfulharvester.dependency.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<!-- Define Sonatype repository for retrieving SNAPSHOT versions -->
+	<repositories>
+		<repository>
+			<id>Sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 </project>

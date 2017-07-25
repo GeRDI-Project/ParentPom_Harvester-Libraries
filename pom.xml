@@ -3,18 +3,26 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
 	<name>GeRDI Parent Pom</name>
+	<description>This is a parent pom for GeRDI projects. It provides Findbugs and PMD testing.</description>
 	<url>http://www.gerdi-project.de</url>
   
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
 		<reports.directory> target/reports/</reports.directory>
+		<gpg.plugin.version>1.6</gpg.plugin.version>
+		<staging.plugin.version>1.6.7</staging.plugin.version>
+		<pmd.plugin.version>3.8</pmd.plugin.version>
+		<findbugs.plugin.version>3.0.1</findbugs.plugin.version>
+		<jxr.plugin.version>2.5</jxr.plugin.version>
+		<junit.dependency.version>4.12</junit.dependency.version>
+		<hamcrest.dependency.version>1.3</hamcrest.dependency.version>
 	</properties>
   
 	<licenses>
@@ -23,13 +31,6 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-  
-	<repositories>
-		<repository>
-			<id>Sonatype</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</repository>
-	</repositories>
 	
 	<profiles>
 		<profile>
@@ -40,7 +41,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
+						<version>${gpg.plugin.version}</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -56,7 +57,7 @@
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.7</version>
+						<version>${staging.plugin.version}</version>
 						<extensions>true</extensions>
 						<configuration>
 							<serverId>ossrh</serverId>
@@ -70,6 +71,7 @@
 	</profiles>
 	
 	<build>
+        <finalName>${project.artifactId}_${project.version}</finalName>
         <directory>target/</directory>
 		
 		<plugins>
@@ -77,7 +79,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.8</version>
+				<version>${pmd.plugin.version}</version>
 				<configuration>
 					<linkXRef>true</linkXRef>
 					<targetJdk>${java.version}</targetJdk>
@@ -117,7 +119,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${findbugs.plugin.version}</version>
 				<configuration>
 					<effort>Max</effort>
 					<threshold>Max</threshold>
@@ -138,12 +140,12 @@
 					<dependency>
 						<groupId>junit</groupId>
 						<artifactId>junit</artifactId>
-						<version>4.12</version>
+						<version>${junit.dependency.version}</version>
 					</dependency>
 					<dependency>
 						<groupId>org.hamcrest</groupId>
 						<artifactId>hamcrest-library</artifactId>
-						<version>1.3</version>
+						<version>${hamcrest.dependency.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -156,19 +158,19 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.8</version>
+				<version>${pmd.plugin.version}</version>
 			</plugin>
 			<!-- resolves PMD issue: [WARNING] Unable to locate Source XRef to link to - DISABLED -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.5</version>
+				<version>${jxr.plugin.version}</version>
 			</plugin>
 			<!-- Findbugs -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${findbugs.plugin.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -183,4 +185,12 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
+	
+	<!-- Define Sonatype repository for retrieving SNAPSHOT versions -->
+	<repositories>
+		<repository>
+			<id>Sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 </project>
