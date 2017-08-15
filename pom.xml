@@ -42,9 +42,6 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>${gpg.plugin.version}</version>
-						<configuration>
-							<executable>/opt/gnupg-1.4.22/g10/gpg</executable>
-						</configuration>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
