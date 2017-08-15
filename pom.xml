@@ -43,8 +43,7 @@
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>${gpg.plugin.version}</version>
 						<configuration>
-							<!--<executable> </executable>-->
-							<useAgent>false</useAgent>
+							<executable>/opt/gnupg-1.4.22/g10/gpg</executable>
 						</configuration>
 						<executions>
 							<execution>
