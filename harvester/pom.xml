@@ -18,33 +18,166 @@
 	<properties>
 		<compiler.plugin.version>3.6.1</compiler.plugin.version>
 		<war.plugin.version>3.1.0</war.plugin.version>
+		<exec.plugin.version>1.1.1</exec.plugin.version>
+		<dependency.plugin.version>3.0.2</dependency.plugin.version>
 		<restfulharvester.dependency.version>5.1.0-SNAPSHOT</restfulharvester.dependency.version>
+		<harvesterutils.dependency.version>1.0.0-SNAPSHOT</harvesterutils.dependency.version>
+		<jersey.dependency.version>2.26</jersey.dependency.version>
 	</properties>
 	
-	<build>
-        <plugins>			
-			<!-- Compile Java -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler.plugin.version}</version>
-				<configuration>
-				  <source>${java.version}</source>
-				  <target>${java.version}</target>
-				</configuration>
-			</plugin>
-			  
-			<!-- Generate war and move it to /target/ folder -->          
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${war.plugin.version}</version>
-				<configuration>
-					<outputDirectory>${project.build.directory}</outputDirectory>
-				</configuration>
-            </plugin>
-		</plugins>
-    </build>
+	<profiles>
+		<profile>
+			<id>dockerPush</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Docker Push</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>scripts/docker-push.sh</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			
+			<dependencies>
+				<dependency>
+					<groupId>org.glassfish.jersey.containers</groupId>
+					<artifactId>jersey-container-servlet</artifactId>
+					<version>${jersey.dependency.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>org.glassfish.jersey.inject</groupId>
+					<artifactId>jersey-hk2</artifactId>
+					<version>${jersey.dependency.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>dockerBuild</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Docker Build</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>scripts/docker-build.sh</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			
+			<dependencies>
+				<dependency>
+					<groupId>org.glassfish.jersey.containers</groupId>
+					<artifactId>jersey-container-servlet</artifactId>
+					<version>${jersey.dependency.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>org.glassfish.jersey.inject</groupId>
+					<artifactId>jersey-hk2</artifactId>
+					<version>${jersey.dependency.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>setup</id>
+			<build>
+				<resources>
+					<resource>
+						<directory>${basedir}/scripts</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<!-- Get Scripts -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>${dependency.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>unpack-shared-resources</id>
+								<goals>
+									<goal>unpack-dependencies</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<!--<includes>setup/**</includes>-->
+									<outputDirectory>${basedir}</outputDirectory>
+									<excludeTransitive>true</excludeTransitive>
+									<overWrite>false</overWrite>
+									<includeGroupIds>de.gerdi-project</includeGroupIds>
+									<includeTypes>zip</includeTypes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+			
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>GeRDI-harvester-utilities-archive</artifactId>
+					<version>${harvesterutils.dependency.version}</version>
+					<classifier>resources</classifier>
+					<type>zip</type>
+					<!-- Make sure this isn't included on any classpath-->
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		
+		<profile>
+			<id>default</id>
+			<build>
+				<plugins>
+					<!-- Compile Java -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>${compiler.plugin.version}</version>
+						<configuration>
+						  <source>${java.version}</source>
+						  <target>${java.version}</target>
+						</configuration>
+					</plugin>
+					  
+					<!-- Generate war and move it to /target/ folder -->          
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>${war.plugin.version}</version>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	
 	<dependencies>
 		<dependency>
