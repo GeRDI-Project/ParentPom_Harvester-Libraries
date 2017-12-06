@@ -151,6 +151,44 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>dockerRun</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Docker Build and Run</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>scripts/docker-run.sh</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			
+			<dependencies>
+				<dependency>
+					<groupId>org.glassfish.jersey.containers</groupId>
+					<artifactId>jersey-container-servlet</artifactId>
+					<version>${jersey.dependency.version}</version>
+				</dependency>
+
+				<dependency>
+					<groupId>org.glassfish.jersey.inject</groupId>
+					<artifactId>jersey-hk2</artifactId>
+					<version>${jersey.dependency.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 	
 	<dependencies>
