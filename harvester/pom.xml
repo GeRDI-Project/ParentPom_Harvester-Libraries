@@ -189,6 +189,30 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>strict</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Code Format Check</id>
+								<phase>test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>scripts/formatting/astyle-check.sh</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>				
+		</profile>
 	</profiles>
 	
 	<dependencies>
