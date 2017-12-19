@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>GeRDI-parent-harvester</artifactId>
-	<version>5.2.1-SNAPSHOT</version>
+	<version>5.2.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom for Harvesters</name>
 	<description>This is a parent pom for GeRDI harvester implementations</description>
