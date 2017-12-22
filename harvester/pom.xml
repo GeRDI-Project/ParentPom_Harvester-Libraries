@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>GeRDI-parent-harvester</artifactId>
-	<version>5.2.2-SNAPSHOT</version>
+	<version>5.2.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom for Harvesters</name>
 	<description>This is a parent pom for GeRDI harvester implementations</description>
@@ -109,44 +109,6 @@
 	
 	<profiles>
 		<profile>
-			<id>dockerPush</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>${exec.plugin.version}</version>
-						<executions>
-							<execution>
-								<id>Docker Push</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<executable>scripts/docker-push.sh</executable>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-			
-			<dependencies>
-				<dependency>
-					<groupId>org.glassfish.jersey.containers</groupId>
-					<artifactId>jersey-container-servlet</artifactId>
-					<version>${jersey.dependency.version}</version>
-				</dependency>
-
-				<dependency>
-					<groupId>org.glassfish.jersey.inject</groupId>
-					<artifactId>jersey-hk2</artifactId>
-					<version>${jersey.dependency.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
 			<id>dockerBuild</id>
 			<build>
 				<plugins>
@@ -169,20 +131,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			
-			<dependencies>
-				<dependency>
-					<groupId>org.glassfish.jersey.containers</groupId>
-					<artifactId>jersey-container-servlet</artifactId>
-					<version>${jersey.dependency.version}</version>
-				</dependency>
-
-				<dependency>
-					<groupId>org.glassfish.jersey.inject</groupId>
-					<artifactId>jersey-hk2</artifactId>
-					<version>${jersey.dependency.version}</version>
-				</dependency>
-			</dependencies>
 		</profile>
 		<profile>
 			<id>dockerRun</id>
@@ -207,22 +155,9 @@
 					</plugin>
 				</plugins>
 			</build>
-			
-			<dependencies>
-				<dependency>
-					<groupId>org.glassfish.jersey.containers</groupId>
-					<artifactId>jersey-container-servlet</artifactId>
-					<version>${jersey.dependency.version}</version>
-				</dependency>
-
-				<dependency>
-					<groupId>org.glassfish.jersey.inject</groupId>
-					<artifactId>jersey-hk2</artifactId>
-					<version>${jersey.dependency.version}</version>
-				</dependency>
-			</dependencies>
 		</profile>
 		<profile>
+			<!-- Extend the already existing "strict" profile by adding a formatting check -->
 			<id>strict</id>
 			<build>
 				<plugins>
@@ -262,6 +197,20 @@
 			<type>zip</type>
 			<!-- Make sure this isn't included on any classpath-->
 			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Required by Jetty -->
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>${jersey.dependency.version}</version>
+		</dependency>
+
+		<!-- Required by Jetty -->
+		<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>${jersey.dependency.version}</version>
 		</dependency>
 	</dependencies>
 	
