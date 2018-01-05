@@ -22,7 +22,7 @@
 		<dependency.plugin.version>3.0.2</dependency.plugin.version>
 		<eclipselifecycle.plugin.version>1.0.0</eclipselifecycle.plugin.version>
 		<restfulharvester.dependency.version>5.1.1-SNAPSHOT</restfulharvester.dependency.version>
-		<harvesterutils.dependency.version>1.0.0-SNAPSHOT</harvesterutils.dependency.version>
+		<harvesterutils.dependency.version>1.0.1-SNAPSHOT</harvesterutils.dependency.version>
 		<jersey.dependency.version>2.26</jersey.dependency.version>
 	</properties>
 	
