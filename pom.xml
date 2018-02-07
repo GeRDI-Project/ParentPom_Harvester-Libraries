@@ -195,6 +195,48 @@
 				</pluginManagement>
 			</build>
 		</profile>
+		
+		<!-- Profile that is activated on Windows -->
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension>bat</script.extension>
+				<invalid.script.extensions>**/*.sh</invalid.script.extensions>
+			</properties>
+		</profile>
+		
+		<!-- Profile that is activated on Linux -->
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension>sh</script.extension>
+				<invalid.script.extensions>**/*.bat</invalid.script.extensions>
+			</properties>
+		</profile>
+		
+		<!-- Profile that is activated on Macs -->
+		<profile>
+			<id>mac</id>
+			<activation>
+				<os> 
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension>sh</script.extension>
+				<invalid.script.extensions>**/*.bat</invalid.script.extensions>
+			</properties>
+		</profile>
 	</profiles>
 	
 	<build>
