@@ -6,7 +6,7 @@
 	
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
-	<version>2.2.0-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
 	<description>This is a parent pom for GeRDI projects. It provides Findbugs and PMD testing.</description>
@@ -36,7 +36,12 @@
 	
 	<profiles>
 		<profile>
-			<id>deploy</id>
+			<id>deployment</id>
+			<activation>
+				<property>
+					<name>deploy</name>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<!-- Sign artifacts -->
@@ -73,7 +78,14 @@
 		
 		<!-- this profile causes the build to fail if any issues are found by PMD or FindBugs-->
 		<profile>
-			<id>strict</id>
+			<id>strictCodeCheck</id>
+			<activation>
+				<property>
+					<name>check</name>
+					<value>strict</value>
+				</property>
+			</activation>
+			
 			<build>
 				<plugins>
 					<!-- Findbugs -->
@@ -113,9 +125,11 @@
 		
 		<!-- this profile generates reports, but does not fail on CPD or PMD violations -->
 		<profile>
-			<id>default</id>
+			<id>reportCodeCheck</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!check</name>
+				</property>
 			</activation>
 			<build>
 				<plugins>
@@ -150,6 +164,17 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		
+		<!-- Disable CodeCheck -->
+		<profile>
+			<id>skipCodeCheck</id>
+			<activation>
+				<property>
+					<name>check</name>
+					<value>disabled</value>
+				</property>
+			</activation>
 		</profile>
 		
 		<profile>
