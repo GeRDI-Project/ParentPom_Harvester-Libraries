@@ -165,6 +165,36 @@
 				</plugins>
 			</build>				
 		</profile>
+		<profile>
+			<!-- Auto-formats all files -->
+			<id>formatFiles</id>
+			<activation>
+				<property>
+					<name>format</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Format Code</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>scripts/formatting/astyle-format.${script.extension}</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>				
+		</profile>
 	</profiles>
 	
 	<dependencies>
