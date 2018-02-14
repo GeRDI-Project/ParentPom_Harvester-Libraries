@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>de.gerdi-project</groupId>
 		<artifactId>GeRDI-parent</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>GeRDI-parent-harvester</artifactId>
-	<version>5.3.1-SNAPSHOT</version>
+	<version>6.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom for Harvesters</name>
 	<description>This is a parent pom for GeRDI harvester implementations</description>
@@ -20,8 +20,8 @@
 		<war.plugin.version>3.1.0</war.plugin.version>
 		<exec.plugin.version>1.1.1</exec.plugin.version>
 		<dependency.plugin.version>3.0.2</dependency.plugin.version>
-		<restfulharvester.dependency.version>5.3.1-SNAPSHOT</restfulharvester.dependency.version>
-		<harvesterutils.dependency.version>1.1.0-SNAPSHOT</harvesterutils.dependency.version>
+		<restfulharvester.dependency.version>6.0.0-SNAPSHOT</restfulharvester.dependency.version>
+		<harvesterutils.dependency.version>1.2.0-SNAPSHOT</harvesterutils.dependency.version>
 		<jersey.dependency.version>2.26</jersey.dependency.version>
 	</properties>
 	
@@ -46,6 +46,7 @@
 							<overWrite>false</overWrite>
 							<includeGroupIds>de.gerdi-project</includeGroupIds>
 							<includeTypes>zip</includeTypes>
+							<excludes>${invalid.script.extensions}</excludes>
 						</configuration>
 					</execution>
 				</executions>
@@ -77,6 +78,11 @@
 	<profiles>
 		<profile>
 			<id>dockerBuild</id>
+			<activation>
+				<property>
+					<name>dockerBuild</name>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -93,7 +99,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/docker-build.sh</executable>
+							<executable>scripts/docker-build.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -101,6 +107,11 @@
 		</profile>
 		<profile>
 			<id>dockerRun</id>
+			<activation>
+				<property>
+					<name>dockerRun</name>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -117,7 +128,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/docker-run.sh</executable>
+							<executable>scripts/docker-run.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -125,7 +136,13 @@
 		</profile>
 		<profile>
 			<!-- Extend the already existing "strict" profile by adding a formatting check -->
-			<id>strict</id>
+			<id>strictCodeCheck</id>
+			<activation>
+				<property>
+					<name>check</name>
+					<value>strict</value>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -142,7 +159,37 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/formatting/astyle-check.sh</executable>
+							<executable>scripts/formatting/astyle-check.${script.extension}</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>				
+		</profile>
+		<profile>
+			<!-- Auto-formats all files -->
+			<id>formatFiles</id>
+			<activation>
+				<property>
+					<name>format</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Format Code</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>scripts/formatting/astyle-format.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
