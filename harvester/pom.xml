@@ -197,7 +197,7 @@
 			</build>				
 		</profile>
 		<profile>
-			<id>addLicenseHeaders</id>
+			<id>ensureLicenseHeaders</id>
 			<activation>
 				<property>
 					<name>addHeaders</name>
