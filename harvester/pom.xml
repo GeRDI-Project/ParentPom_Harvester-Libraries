@@ -216,6 +216,8 @@
 							</properties>
 							<includes>
 								<include>**/*.java</include>
+								<include>**/*.sh</include>
+								<include>**/*.bat</include>
 							</includes>
 						</configuration>
 						<executions>
