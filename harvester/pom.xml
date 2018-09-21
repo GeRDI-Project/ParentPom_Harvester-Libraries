@@ -16,14 +16,14 @@
 	<description>This is a parent pom for GeRDI harvester implementations</description>
 	
 	<properties>
-		<compiler.plugin.version>3.6.1</compiler.plugin.version>
-		<war.plugin.version>3.1.0</war.plugin.version>
-		<exec.plugin.version>1.1.1</exec.plugin.version>
+		<compiler.plugin.version>3.8.0</compiler.plugin.version>
+		<war.plugin.version>3.2.2</war.plugin.version>
+		<exec.plugin.version>1.6.0</exec.plugin.version>
 		<license.plugin.version>3.0</license.plugin.version>
-		<dependency.plugin.version>3.0.2</dependency.plugin.version>
+		<dependency.plugin.version>3.1.1</dependency.plugin.version>
 		<restfulharvester.dependency.version>7.0.0-SNAPSHOT</restfulharvester.dependency.version>
 		<harvesterutils.dependency.version>1.4.1</harvesterutils.dependency.version>
-		<jersey.dependency.version>2.26</jersey.dependency.version>
+		<jersey.dependency.version>2.27</jersey.dependency.version>
 	</properties>
 	
 	<build>
