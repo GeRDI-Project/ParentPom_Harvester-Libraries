@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>de.gerdi-project</groupId>
 		<artifactId>GeRDI-parent</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.1</version>
 	</parent>
 	
 	<artifactId>GeRDI-parent-harvester</artifactId>
-	<version>6.8.1-SNAPSHOT</version>
+	<version>6.9.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom for Harvesters</name>
 	<description>This is a parent pom for GeRDI harvester implementations</description>
@@ -21,8 +21,8 @@
 		<exec.plugin.version>1.1.1</exec.plugin.version>
 		<license.plugin.version>3.0</license.plugin.version>
 		<dependency.plugin.version>3.0.2</dependency.plugin.version>
-		<restfulharvester.dependency.version>6.8.1-SNAPSHOT</restfulharvester.dependency.version>
-		<harvesterutils.dependency.version>1.4.0-SNAPSHOT</harvesterutils.dependency.version>
+		<restfulharvester.dependency.version>6.9.1-SNAPSHOT</restfulharvester.dependency.version>
+		<harvesterutils.dependency.version>1.4.1</harvesterutils.dependency.version>
 		<jersey.dependency.version>2.26</jersey.dependency.version>
 	</properties>
 	
@@ -268,6 +268,22 @@
 			<version>${jersey.dependency.version}</version>
 		</dependency>
 	</dependencies>
+	
+	<developers>
+		<developer>
+			<name>Robin Weiss</name>
+			<email>row@informatik.uni-kiel.de</email>
+			<organization>Kiel University</organization>
+			<organizationUrl>http://www.uni-kiel.de/index-e.shtml</organizationUrl>
+		</developer>
+	</developers>
+	
+	<scm>
+        <connection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</connection>
+        <developerConnection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</developerConnection>
+        <url>https://code.gerdi-project.de/scm/hl/parentpoms.git</url>
+        <tag>HEAD</tag>
+    </scm>  
 	
 	<!-- Define Sonatype repository for retrieving SNAPSHOT versions -->
 	<repositories>

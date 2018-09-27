@@ -6,7 +6,7 @@
 	
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
-	<version>3.0.0-SNAPSHOT</version>
+	<version>3.0.1</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
 	<description>This is a parent pom for GeRDI projects. It provides Findbugs and PMD testing.</description>
@@ -383,6 +383,22 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
+	
+	<developers>
+		<developer>
+			<name>Robin Weiss</name>
+			<email>row@informatik.uni-kiel.de</email>
+			<organization>Kiel University</organization>
+			<organizationUrl>http://www.uni-kiel.de/index-e.shtml</organizationUrl>
+		</developer>
+	</developers>
+	
+	<scm>
+        <connection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</connection>
+        <developerConnection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</developerConnection>
+        <url>https://code.gerdi-project.de/scm/hl/parentpoms.git</url>
+        <tag>HEAD</tag>
+    </scm>
 	
 	<!-- Define Sonatype repository for retrieving SNAPSHOT versions -->
 	<repositories>
