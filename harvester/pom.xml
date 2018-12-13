@@ -6,24 +6,24 @@
 	<parent>
 		<groupId>de.gerdi-project</groupId>
 		<artifactId>GeRDI-parent</artifactId>
-		<version>3.0.1</version>
+		<version>3.1.0-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>GeRDI-parent-harvester</artifactId>
-	<version>6.9.4-SNAPSHOT</version>
+	<version>7.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom for Harvesters</name>
 	<description>This is a parent pom for GeRDI harvester implementations</description>
 	
 	<properties>
-		<compiler.plugin.version>3.6.1</compiler.plugin.version>
-		<war.plugin.version>3.1.0</war.plugin.version>
-		<exec.plugin.version>1.1.1</exec.plugin.version>
+		<compiler.plugin.version>3.8.0</compiler.plugin.version>
+		<war.plugin.version>3.2.2</war.plugin.version>
+		<exec.plugin.version>1.6.0</exec.plugin.version>
 		<license.plugin.version>3.0</license.plugin.version>
-		<dependency.plugin.version>3.0.2</dependency.plugin.version>
-		<restfulharvester.dependency.version>6.9.4-SNAPSHOT</restfulharvester.dependency.version>
+		<dependency.plugin.version>3.1.1</dependency.plugin.version>
+		<restfulharvester.dependency.version>7.0.0-SNAPSHOT</restfulharvester.dependency.version>
 		<harvesterutils.dependency.version>1.4.1</harvesterutils.dependency.version>
-		<jersey.dependency.version>2.26</jersey.dependency.version>
+		<jersey.dependency.version>2.27</jersey.dependency.version>
 	</properties>
 	
 	<build>
@@ -101,7 +101,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/docker-build.${script.extension}</executable>
+							<executable>${project.basedir}/scripts/docker-build.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -130,7 +130,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/docker-run.${script.extension}</executable>
+							<executable>${project.basedir}/scripts/docker-run.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -161,7 +161,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/formatting/astyle-check.${script.extension}</executable>
+							<executable>${project.basedir}/scripts/formatting/astyle-check.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -191,7 +191,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<executable>scripts/formatting/astyle-format.${script.extension}</executable>
+							<executable>${project.basedir}/scripts/formatting/astyle-format.${script.extension}</executable>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -221,7 +221,7 @@
 								<include>**/*.bat</include>
 							</includes>
 							<excludes>
-								<exclude>scripts/**/*</exclude>
+								<exclude>${project.basedir}/scripts/**/*</exclude>
 							</excludes>
 						</configuration>
 						<executions>
