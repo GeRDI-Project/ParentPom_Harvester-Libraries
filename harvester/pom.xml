@@ -22,7 +22,7 @@
 		<license.plugin.version>3.0</license.plugin.version>
 		<dependency.plugin.version>3.1.1</dependency.plugin.version>
 		<restfulharvester.dependency.version>7.1.0-SNAPSHOT</restfulharvester.dependency.version>
-		<harvesterutils.dependency.version>1.5.0</harvesterutils.dependency.version>
+		<harvesterutils.dependency.version>1.5.0-SNAPSHOT</harvesterutils.dependency.version>
 		<jersey.dependency.version>2.27</jersey.dependency.version>
 	</properties>
 	
