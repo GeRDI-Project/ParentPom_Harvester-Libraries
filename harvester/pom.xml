@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>GeRDI-parent-harvester</artifactId>
-	<version>7.0.3-SNAPSHOT</version>
+	<version>7.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom for Harvesters</name>
 	<description>This is a parent pom for GeRDI harvester implementations</description>
@@ -21,8 +21,8 @@
 		<exec.plugin.version>1.6.0</exec.plugin.version>
 		<license.plugin.version>3.0</license.plugin.version>
 		<dependency.plugin.version>3.1.1</dependency.plugin.version>
-		<restfulharvester.dependency.version>7.0.3-SNAPSHOT</restfulharvester.dependency.version>
-		<harvesterutils.dependency.version>1.4.1</harvesterutils.dependency.version>
+		<restfulharvester.dependency.version>7.1.0-SNAPSHOT</restfulharvester.dependency.version>
+		<harvesterutils.dependency.version>1.5.0-SNAPSHOT</harvesterutils.dependency.version>
 		<jersey.dependency.version>2.27</jersey.dependency.version>
 	</properties>
 	
