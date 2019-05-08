@@ -1,7 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+		 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>de.gerdi-project</groupId>
@@ -11,7 +11,7 @@
 	<name>GeRDI Parent Pom</name>
 	<description>This is a parent pom for GeRDI projects. It provides Findbugs and PMD testing.</description>
 	<url>http://www.gerdi-project.de</url>
-  
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
@@ -29,14 +29,14 @@
 		<logbackclassic.dependency.version>1.2.3</logbackclassic.dependency.version>
 		<lombok.dependency.version>1.18.4</lombok.dependency.version>
 	</properties>
-  
+
 	<licenses>
 		<license>
 			<name>The Apache License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-	
+
 	<profiles>
 		<profile>
 			<id>deployment</id>
@@ -62,7 +62,7 @@
 							</execution>
 						</executions>
 					</plugin>
-			 
+
 					<!-- Stage to maven central -->
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
@@ -88,7 +88,7 @@
 					<value>strict</value>
 				</property>
 			</activation>
-			
+
 			<build>
 				<plugins>
 					<!-- Findbugs -->
@@ -106,7 +106,7 @@
 							</execution>
 						</executions>
 					</plugin>
-				
+
 					<!-- PMD -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -127,7 +127,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<!-- this profile generates reports, but does not fail on CPD or PMD violations -->
 		<profile>
 			<id>reportCodeCheck</id>
@@ -152,7 +152,7 @@
 							</execution>
 						</executions>
 					</plugin>
-				
+
 					<!-- PMD -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -172,7 +172,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<!-- Disable CodeCheck -->
 		<profile>
 			<id>skipCodeCheck</id>
@@ -195,7 +195,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>eclipse</id>
 			<activation>
@@ -239,7 +239,7 @@
 				</pluginManagement>
 			</build>
 		</profile>
-		
+
 		<!-- Profile that is activated on Windows -->
 		<profile>
 			<id>windows</id>
@@ -253,7 +253,7 @@
 				<invalid.script.extensions>**/*.sh</invalid.script.extensions>
 			</properties>
 		</profile>
-		
+
 		<!-- Profile that is activated on Linux -->
 		<profile>
 			<id>unix</id>
@@ -267,7 +267,7 @@
 				<invalid.script.extensions>**/*.bat</invalid.script.extensions>
 			</properties>
 		</profile>
-		
+
 		<!-- Profile that is activated on Macs -->
 		<profile>
 			<id>mac</id>
@@ -282,11 +282,11 @@
 			</properties>
 		</profile>
 	</profiles>
-	
+
 	<build>
-        <finalName>${project.artifactId}_${project.version}</finalName>
-        <directory>target/</directory>
-		
+		<finalName>${project.artifactId}_${project.version}</finalName>
+		<directory>target/</directory>
+
 		<plugins>
 			<!-- PMD -->
 			<plugin>
@@ -354,25 +354,25 @@
 			<artifactId>annotations</artifactId>
 			<version>${findbugs.annotations.dependency.version}</version>
 		</dependency>
-		
+
 		<!-- required for logging -->
 		<dependency>
-		  <groupId>org.slf4j</groupId>
-		  <artifactId>slf4j-api</artifactId>
-		  <version>${slf4j.dependency.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.dependency.version}</version>
 		</dependency>
-		
+
 		<dependency>
-		  <groupId>ch.qos.logback</groupId>
-		  <artifactId>logback-classic</artifactId>
-		  <version>${logbackclassic.dependency.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logbackclassic.dependency.version}</version>
 		</dependency>
-		
+
 		<dependency>
-		  <groupId>junit</groupId>
-		  <artifactId>junit</artifactId>
-		  <version>${junit.dependency.version}</version>
-		  <scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.dependency.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
@@ -383,7 +383,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<reporting>
 		<plugins>
 			<!-- PMD -->
@@ -392,6 +392,7 @@
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd.plugin.version}</version>
 			</plugin>
+
 			<!-- resolves PMD issue: [WARNING] Unable to locate Source XRef to link to - DISABLED -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -406,18 +407,19 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+
 		<repository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<developers>
 		<developer>
 			<name>Robin Weiss</name>
@@ -428,18 +430,19 @@
 	</developers>
 	
 	<scm>
-        <connection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</connection>
-        <developerConnection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</developerConnection>
-        <url>https://code.gerdi-project.de/scm/hl/parentpoms.git</url>
-        <tag>HEAD</tag>
-    </scm>
-	
+		<connection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</connection>
+		<developerConnection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</developerConnection>
+		<url>https://code.gerdi-project.de/scm/hl/parentpoms.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
 	<!-- Define Sonatype repository for retrieving SNAPSHOT versions -->
 	<repositories>
 		<repository>
 			<id>Sonatype</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
+
 		<repository>
 			<id>projectlombok.org</id>
 			<url>http://projectlombok.org/mavenrepo</url>
