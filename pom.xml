@@ -9,7 +9,7 @@
 	<version>3.1.0</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
-	<description>This is a parent pom for GeRDI projects. It provides Findbugs and PMD testing.</description>
+	<description>This is a parent pom for GeRDI projects. It provides SpotBugs and PMD testing.</description>
 	<url>http://www.gerdi-project.de</url>
 
 	<properties>
@@ -18,9 +18,9 @@
 		<reports.directory>target/reports/</reports.directory>
 		<gpg.plugin.version>1.6</gpg.plugin.version>
 		<staging.plugin.version>1.6.7</staging.plugin.version>
-		<findbugs.plugin.version>3.0.5</findbugs.plugin.version>
-		<findbugs.annotations.dependency.version>3.0.1</findbugs.annotations.dependency.version>
 		<pmd.plugin.version>3.11.0</pmd.plugin.version>
+		<spotbugs.plugin.version>3.1.11</spotbugs.plugin.version>
+		<spotbugs.annotations.dependency.version>3.1.12</spotbugs.annotations.dependency.version>
 		<jxr.plugin.version>2.5</jxr.plugin.version>
 		<surefire.plugin.version>2.22.0</surefire.plugin.version>
 		<junit.dependency.version>4.12</junit.dependency.version>
@@ -79,8 +79,8 @@
 				</plugins>
 			</build>
 		</profile>
-		
-		<!-- this profile causes the build to fail if any issues are found by PMD or FindBugs-->
+
+		<!-- this profile causes the build to fail if any issues are found by PMD or SpotBugs-->
 		<profile>
 			<id>strictCodeCheck</id>
 			<activation>
@@ -92,16 +92,16 @@
 
 			<build>
 				<plugins>
-					<!-- Findbugs -->
+					<!-- SpotBugs -->
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>findbugs-maven-plugin</artifactId>
-						<version>${findbugs.plugin.version}</version>
+						<groupId>com.github.spotbugs</groupId>
+						<artifactId>spotbugs-maven-plugin</artifactId>
+						<version>${spotbugs.plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>test</phase>
 								<goals>
-									<!-- fail build if FindBugs finds issues -->
+									<!-- fail build if SpotBugs finds issues -->
 									<goal>check</goal>
 								</goals>
 							</execution>
@@ -139,16 +139,16 @@
 			</activation>
 			<build>
 				<plugins>
-					<!-- Findbugs -->
+					<!-- SpotBugs -->
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>findbugs-maven-plugin</artifactId>
-						<version>${findbugs.plugin.version}</version>
+						<groupId>com.github.spotbugs</groupId>
+						<artifactId>spotbugs-maven-plugin</artifactId>
+						<version>${spotbugs.plugin.version}</version>
 						<executions>
 							<execution>
 								<phase>test</phase>
 								<goals>
-									<goal>findbugs</goal>
+									<goal>spotbugs</goal>
 								</goals>
 							</execution>
 						</executions>
@@ -365,12 +365,12 @@
 					</rulesets>
 				</configuration>
 			</plugin>
-			
-			<!-- Findbugs -->
+
+			<!-- SpotBugs -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs.plugin.version}</version>
 				<configuration>
 					<effort>Max</effort>
 					<threshold>Max</threshold>
@@ -396,11 +396,12 @@
 	</build>
 	
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/com.google.code.findbugs/annotations -->
+		<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations -->
 		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>annotations</artifactId>
-			<version>${findbugs.annotations.dependency.version}</version>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs-annotations</artifactId>
+			<version>${spotbugs.annotations.dependency.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- required for logging -->
@@ -447,11 +448,12 @@
 				<artifactId>maven-jxr-plugin</artifactId>
 				<version>${jxr.plugin.version}</version>
 			</plugin>
-			<!-- Findbugs -->
+
+			<!-- SpotBugs -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>${findbugs.plugin.version}</version>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>${spotbugs.plugin.version}</version>
 			</plugin>
 		</plugins>
 	</reporting>
