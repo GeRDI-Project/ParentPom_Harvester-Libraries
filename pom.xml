@@ -379,11 +379,11 @@
 								<goals>
 									<goal>exec</goal>
 								</goals>
+								<configuration>
+									<executable>${project.build.directory}/harvester-utils/scripts/addLicenses.${script.extension}</executable>
+								</configuration>
 							</execution>
 						</executions>
-						<configuration>
-							<executable>${project.build.directory}/harvester-utils/scripts/addLicenses.${script.extension}</executable>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -409,22 +409,22 @@
 								<goals>
 									<goal>format</goal>
 								</goals>
+								<configuration>
+									<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+									<properties>
+										<email>http://www.gerdi-project.de</email>
+									</properties>
+									<includes>
+										<include>**/*.java</include>
+										<include>**/*.sh</include>
+										<include>**/*.bat</include>
+									</includes>
+									<excludes>
+										<exclude>${project.build.directory}/harvester-utils/scripts/**/*</exclude>
+									</excludes>
+								</configuration>
 							</execution>
 						</executions>
-						<configuration>
-							<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
-							<properties>
-								<email>http://www.gerdi-project.de</email>
-							</properties>
-							<includes>
-								<include>**/*.java</include>
-								<include>**/*.sh</include>
-								<include>**/*.bat</include>
-							</includes>
-							<excludes>
-								<exclude>${project.build.directory}/harvester-utils/scripts/**/*</exclude>
-							</excludes>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -484,11 +484,11 @@
 								<goals>
 									<goal>exec</goal>
 								</goals>
+								<configuration>
+									<executable>${project.build.directory}/harvester-utils/scripts/docker-build.${script.extension}</executable>
+								</configuration>
 							</execution>
 						</executions>
-						<configuration>
-							<executable>${project.build.directory}/harvester-utils/scripts/docker-build.${script.extension}</executable>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -518,11 +518,11 @@
 								<goals>
 									<goal>exec</goal>
 								</goals>
+								<configuration>
+									<executable>${project.build.directory}/harvester-utils/scripts/docker-run.${script.extension}</executable>
+								</configuration>
 							</execution>
 						</executions>
-						<configuration>
-							<executable>${project.build.directory}/harvester-utils/scripts/docker-run.${script.extension}</executable>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -542,13 +542,6 @@
 						<groupId>org.eclipse.jetty</groupId>
 						<artifactId>jetty-maven-plugin</artifactId>
 						<version>${jetty.plugin.version}</version>
-						<configuration>
-							<webApp>
-								<contextPath>/${project.artifactId}</contextPath>
-								<tempDirectory>${project.build.directory}/jetty</tempDirectory>
-							</webApp>
-							<daemon>false</daemon>
-						</configuration>
 						<executions>
 							<execution>
 								<id>Run Jetty</id>
@@ -556,6 +549,13 @@
 								<goals>
 									<goal>deploy-war</goal>
 								</goals>
+								<configuration>
+									<webApp>
+										<contextPath>/${project.artifactId}</contextPath>
+										<tempDirectory>${project.build.directory}/jetty</tempDirectory>
+									</webApp>
+									<daemon>false</daemon>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -680,12 +680,12 @@
 						<goals>
 							<goal>exec</goal>
 						</goals>
+						<configuration>
+							<skip>${skip.formattingcheck}</skip>
+							<executable>${project.build.directory}/harvester-utils/scripts/formatting/astyle-check.${script.extension}</executable>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<skip>${skip.formattingcheck}</skip>
-					<executable>${project.build.directory}/harvester-utils/scripts/formatting/astyle-check.${script.extension}</executable>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
