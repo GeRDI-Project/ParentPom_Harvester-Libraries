@@ -6,29 +6,51 @@
 	
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
-	<version>3.2.0-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
 	<description>This is a parent pom for GeRDI projects. It provides SpotBugs and PMD testing.</description>
 	<url>http://www.gerdi-project.de</url>
 
 	<properties>
+		<!-- Plugin Versions -->
 		<compiler.plugin.version>3.8.0</compiler.plugin.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<reports.directory>target/reports/</reports.directory>
+		<exec.plugin.version>1.6.0</exec.plugin.version>
+		<war.plugin.version>3.2.2</war.plugin.version>
+		<jar.plugin.version>3.0.2</jar.plugin.version>
+		<javadoc.plugin.version>3.0.1</javadoc.plugin.version>
+		<source.plugin.version>3.0.1</source.plugin.version>
+		<license.plugin.version>3.0</license.plugin.version>
 		<gpg.plugin.version>1.6</gpg.plugin.version>
 		<staging.plugin.version>1.6.7</staging.plugin.version>
 		<pmd.plugin.version>3.11.0</pmd.plugin.version>
 		<spotbugs.plugin.version>3.1.11</spotbugs.plugin.version>
-		<spotbugs.annotations.dependency.version>3.1.12</spotbugs.annotations.dependency.version>
 		<jxr.plugin.version>2.5</jxr.plugin.version>
 		<surefire.plugin.version>2.22.0</surefire.plugin.version>
+		<dependency.plugin.version>3.1.1</dependency.plugin.version>
+		<jetty.plugin.version>9.3.11.v20160721</jetty.plugin.version>
+
+		<!-- Dependency Versions -->
 		<junit.dependency.version>4.12</junit.dependency.version>
 		<hamcrest.dependency.version>1.3</hamcrest.dependency.version>
 		<slf4j.dependency.version>1.7.25</slf4j.dependency.version>
 		<logbackclassic.dependency.version>1.2.3</logbackclassic.dependency.version>
 		<lombok.dependency.version>1.18.4</lombok.dependency.version>
 		<javaxws.dependency.version>2.3.1</javaxws.dependency.version>
+		<spotbugs.annotations.dependency.version>3.1.12</spotbugs.annotations.dependency.version>
+		<harvesterutils.dependency.version>1.5.2-SNAPSHOT</harvesterutils.dependency.version>
+
+		<!-- Misc. Properties -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<invalid.script.extensions>*</invalid.script.extensions>
+		<reports.directory>target/reports/</reports.directory>
+		
+		<!-- Code Check -->
+		<skip.codecheck>false</skip.codecheck>
+		<skip.formattingcheck>true</skip.formattingcheck>
+		<spotbugs.goal>spotbugs</spotbugs.goal>
+		<pmd.goal>pmd</pmd.goal>
+		<cpd.goal>cpd</cpd.goal>
 	</properties>
 
 	<licenses>
@@ -39,6 +61,91 @@
 	</licenses>
 
 	<profiles>
+		<profile>
+			<id>war</id>
+			<activation>
+				<file>
+					<exists>Dockerfile</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Generate war and move it to /target/ folder -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>${war.plugin.version}</version>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<archiveClasses>true</archiveClasses>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>jar</id>
+			<activation>
+				<file>
+					<missing>Dockerfile</missing>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Generate jar and move it to /target/ folder -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-jar-plugin</artifactId>
+						<version>${jar.plugin.version}</version>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<excludes>
+								<exclude>**/de/gerdiproject/generator/**</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+
+					<!-- Add javadoc -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>${javadoc.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<quiet>true</quiet>
+						</configuration>
+					</plugin>
+
+					<!-- Add sources -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>${source.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 		<profile>
 			<id>deployment</id>
 			<activation>
@@ -89,89 +196,13 @@
 					<value>strict</value>
 				</property>
 			</activation>
-
-			<build>
-				<plugins>
-					<!-- SpotBugs -->
-					<plugin>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs-maven-plugin</artifactId>
-						<version>${spotbugs.plugin.version}</version>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<!-- fail build if SpotBugs finds issues -->
-									<goal>check</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- PMD -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-pmd-plugin</artifactId>
-						<version>${pmd.plugin.version}</version>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<!-- fail build if PMD finds issues -->
-									<goal>check</goal>
-									<!-- fail build if CPD finds issues -->
-									<goal>cpd-check</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-		<!-- this profile generates reports, but does not fail on CPD or PMD violations -->
-		<profile>
-			<id>reportCodeCheck</id>
-			<activation>
-				<property>
-					<name>!check</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<!-- SpotBugs -->
-					<plugin>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs-maven-plugin</artifactId>
-						<version>${spotbugs.plugin.version}</version>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<goal>spotbugs</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<!-- PMD -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-pmd-plugin</artifactId>
-						<version>${pmd.plugin.version}</version>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<!-- generate reports for PMD and CPD -->
-									<goal>pmd</goal>
-									<goal>cpd</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+			
+			<properties>
+				<spotbugs.goal>check</spotbugs.goal>
+				<pmd.goal>check</pmd.goal>
+				<cpd.goal>cpd-check</cpd.goal>
+				<skip.formattingcheck>false</skip.formattingcheck>
+			</properties>
 		</profile>
 
 		<!-- Disable CodeCheck -->
@@ -183,18 +214,9 @@
 					<value>disabled</value>
 				</property>
 			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>${surefire.plugin.version}</version>
-						<configuration>
-							<skipTests>true</skipTests>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
+			<properties>
+				<skip.codecheck>true</skip.codecheck>
+			</properties>
 		</profile>
 
 		<profile>
@@ -336,6 +358,210 @@
 				</dependency>
 			</dependencies>
 		</profile>
+
+		<profile>
+			<id>ensureLicenseHeaders</id>
+			<activation>
+				<property>
+					<name>addHeaders</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Add License Headers</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>${project.build.directory}/harvester-utils/scripts/addLicenses.${script.extension}</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>ensureLicenseHeadersInternal</id>
+			<activation>
+				<property>
+					<name>addHeadersInternal</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.mycila</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<version>${license.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Add License Headers Internal</id>
+								<phase>process-sources</phase>
+								<goals>
+									<goal>format</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+							<properties>
+								<email>http://www.gerdi-project.de</email>
+							</properties>
+							<includes>
+								<include>**/*.java</include>
+								<include>**/*.sh</include>
+								<include>**/*.bat</include>
+							</includes>
+							<excludes>
+								<exclude>${project.build.directory}/harvester-utils/scripts/**/*</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<!-- Auto-formats all files -->
+			<id>formatFiles</id>
+			<activation>
+				<property>
+					<name>format</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Format Code</id>
+								<phase>process-sources</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<executable>${project.build.directory}/harvester-utils/scripts/formatting/astyle-format.${script.extension}</executable>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		<profile>
+			<id>dockerBuild</id>
+			<activation>
+				<property>
+					<name>dockerBuild</name>
+				</property>
+				<file>
+					<exists>Dockerfile</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Docker Build</id>
+								<phase>package</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>${project.build.directory}/harvester-utils/scripts/docker-build.${script.extension}</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>dockerRun</id>
+			<activation>
+				<property>
+					<name>run</name>
+					<value>docker</value>
+				</property>
+				<file>
+					<exists>Dockerfile</exists>
+				</file>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>${exec.plugin.version}</version>
+						<executions>
+							<execution>
+								<id>Docker Build and Run</id>
+								<phase>package</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>${project.build.directory}/harvester-utils/scripts/docker-run.${script.extension}</executable>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>jettyRun</id>
+			<activation>
+				<property>
+					<name>run</name>
+					<value>jetty</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty.plugin.version}</version>
+						<configuration>
+							<webApp>
+								<contextPath>/${project.artifactId}</contextPath>
+								<tempDirectory>${project.build.directory}/jetty</tempDirectory>
+							</webApp>
+							<daemon>false</daemon>
+						</configuration>
+						<executions>
+							<execution>
+								<id>Run Jetty</id>
+								<phase>package</phase>
+								<goals>
+									<goal>deploy-war</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<build>
@@ -343,6 +569,41 @@
 		<directory>target/</directory>
 
 		<plugins>
+			<!-- Unpack Utilities -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${dependency.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>unpack-shared-resources</id>
+						<goals>
+							<goal>unpack-dependencies</goal>
+						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<!--<includes>setup/**</includes>-->
+							<outputDirectory>${basedir}</outputDirectory>
+							<excludeTransitive>true</excludeTransitive>
+							<overWrite>false</overWrite>
+							<includeGroupIds>de.gerdi-project</includeGroupIds>
+							<includeTypes>zip</includeTypes>
+							<excludes>${invalid.script.extensions}</excludes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Surefire -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.plugin.version}</version>
+				<configuration>
+					<skipTests>${skip.codecheck}</skipTests>
+				</configuration>
+			</plugin>
+			
 			<!-- PMD -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -351,21 +612,26 @@
 				<configuration>
 					<linkXRef>true</linkXRef>
 					<targetJdk>${java.version}</targetJdk>
-					<includeTests>true</includeTests>
+					<includeTests>false</includeTests>
 					<failOnViolation>true</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
 					<targetDirectory>${reports.directory}</targetDirectory>
+					<skip>${skip.codecheck}</skip>
 					<rulesets>
-						<ruleset>category/java/errorprone.xml</ruleset>
-						<ruleset>category/java/multithreading.xml</ruleset>
-						<ruleset>category/java/bestpractices.xml</ruleset>
-						<ruleset>category/java/codestyle.xml</ruleset>
-						<ruleset>category/java/performance.xml</ruleset>
-						<ruleset>category/java/design.xml</ruleset>
+						<ruleset>target/harvester-utils/pmd/gerdi-ruleset.xml</ruleset>
 					</rulesets>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>${pmd.goal}</goal>
+							<goal>${cpd.goal}</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
-
+			
 			<!-- SpotBugs -->
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
@@ -378,7 +644,16 @@
 					<failOnError>true</failOnError>
 					<xmlOutput>true</xmlOutput>
 					<xmlOutputDirectory>${reports.directory}</xmlOutputDirectory>
+					<skip>${skip.codecheck}</skip>
 				</configuration>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>${spotbugs.goal}</goal>
+						</goals>
+					</execution>
+				</executions>
 				<dependencies>
 					<dependency>
 						<groupId>junit</groupId>
@@ -391,6 +666,26 @@
 						<version>${hamcrest.dependency.version}</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+
+			<!-- AStyle Check -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${exec.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>Code Format Check</id>
+						<phase>test</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>${skip.formattingcheck}</skip>
+					<executable>${project.build.directory}/harvester-utils/scripts/formatting/astyle-check.${script.extension}</executable>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -429,6 +724,16 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.dependency.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>de.gerdi-project</groupId>
+			<artifactId>GeRDI-harvester-utilities-archive</artifactId>
+			<version>${harvesterutils.dependency.version}</version>
+			<classifier>resources</classifier>
+			<type>zip</type>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
