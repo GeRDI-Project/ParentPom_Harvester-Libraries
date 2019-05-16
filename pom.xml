@@ -3,7 +3,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 		 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
 	<version>4.0.0-SNAPSHOT</version>
@@ -44,7 +44,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<invalid.script.extensions>*</invalid.script.extensions>
 		<reports.directory>target/reports/</reports.directory>
-		
+
 		<!-- Code Check -->
 		<skip.codecheck>false</skip.codecheck>
 		<skip.formattingcheck>true</skip.formattingcheck>
@@ -460,7 +460,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>dockerBuild</id>
 			<activation>
@@ -593,7 +593,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- Surefire -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -603,7 +603,7 @@
 					<skipTests>${skip.codecheck}</skipTests>
 				</configuration>
 			</plugin>
-			
+
 			<!-- PMD -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -623,7 +623,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>test</phase>
+						<phase>process-test-sources</phase>
 						<goals>
 							<goal>${pmd.goal}</goal>
 							<goal>${cpd.goal}</goal>
@@ -631,7 +631,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- SpotBugs -->
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
@@ -648,7 +648,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>test</phase>
+						<phase>process-test-sources</phase>
 						<goals>
 							<goal>${spotbugs.goal}</goal>
 						</goals>
@@ -676,7 +676,7 @@
 				<executions>
 					<execution>
 						<id>Code Format Check</id>
-						<phase>test</phase>
+						<phase>process-test-sources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -689,7 +689,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.github.spotbugs/spotbugs-annotations -->
 		<dependency>
@@ -726,8 +726,7 @@
 			<version>${lombok.dependency.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
-		
+
 		<dependency>
 			<groupId>de.gerdi-project</groupId>
 			<artifactId>GeRDI-harvester-utilities-archive</artifactId>
@@ -783,7 +782,7 @@
 			<organizationUrl>http://www.uni-kiel.de/index-e.shtml</organizationUrl>
 		</developer>
 	</developers>
-	
+
 	<scm>
 		<connection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</connection>
 		<developerConnection>scm:git:ssh://git@code.gerdi-project.de:7999/hl/parentpoms.git</developerConnection>
