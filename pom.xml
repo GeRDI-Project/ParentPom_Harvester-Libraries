@@ -219,50 +219,6 @@
 			</properties>
 		</profile>
 
-		<profile>
-			<id>eclipse</id>
-			<activation>
-				<property>
-					<name>m2e.version</name>
-				</property>
-			</activation>
-			<properties>
-				<eclipselifecycle.plugin.version>1.0.0</eclipselifecycle.plugin.version>
-			</properties>
-			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.eclipse.m2e</groupId>
-							<artifactId>lifecycle-mapping</artifactId>
-							<version>${eclipselifecycle.plugin.version}</version>
-							<configuration>
-								<lifecycleMappingMetadata>
-									<pluginExecutions>
-										<pluginExecution>
-											<pluginExecutionFilter>
-												<groupId>org.apache.maven.plugins</groupId>
-												<artifactId>maven-dependency-plugin</artifactId>
-												<versionRange>[${dependency.plugin.version},)</versionRange>
-												<goals>
-													<goal>
-														unpack-dependencies
-													</goal>
-												</goals>
-											</pluginExecutionFilter>
-											<action>
-												<ignore></ignore>
-											</action>
-										</pluginExecution>
-									</pluginExecutions>
-								</lifecycleMappingMetadata>
-							</configuration>
-						</plugin>
-					</plugins>
-				</pluginManagement>
-			</build>
-		</profile>
-
 		<!-- Profile that is activated on Windows -->
 		<profile>
 			<id>windows</id>
@@ -568,126 +524,129 @@
 		<finalName>${project.artifactId}_${project.version}</finalName>
 		<directory>target/</directory>
 
-		<plugins>
-			<!-- Unpack Utilities -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${dependency.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>unpack-shared-resources</id>
-						<goals>
-							<goal>unpack-dependencies</goal>
-						</goals>
-						<phase>generate-resources</phase>
-						<configuration>
-							<!--<includes>setup/**</includes>-->
-							<outputDirectory>${basedir}</outputDirectory>
-							<excludeTransitive>true</excludeTransitive>
-							<overWrite>false</overWrite>
-							<includeGroupIds>de.gerdi-project</includeGroupIds>
-							<includeTypes>zip</includeTypes>
-							<excludes>${invalid.script.extensions}</excludes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+		
+		<pluginManagement>
+			<plugins>
+				<!-- Unpack Utilities -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>${dependency.plugin.version}</version>
+					<executions>
+						<execution>
+							<id>unpack-shared-resources</id>
+							<goals>
+								<goal>unpack-dependencies</goal>
+							</goals>
+							<phase>generate-resources</phase>
+							<configuration>
+								<!--<includes>setup/**</includes>-->
+								<outputDirectory>${basedir}</outputDirectory>
+								<excludeTransitive>true</excludeTransitive>
+								<overWrite>false</overWrite>
+								<includeGroupIds>de.gerdi-project</includeGroupIds>
+								<includeTypes>zip</includeTypes>
+								<excludes>${invalid.script.extensions}</excludes>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 
-			<!-- Surefire -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire.plugin.version}</version>
-				<configuration>
-					<skipTests>${skip.codecheck}</skipTests>
-				</configuration>
-			</plugin>
+				<!-- Surefire -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.plugin.version}</version>
+					<configuration>
+						<skipTests>${skip.codecheck}</skipTests>
+					</configuration>
+				</plugin>
 
-			<!-- PMD -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>${pmd.plugin.version}</version>
-				<configuration>
-					<linkXRef>true</linkXRef>
-					<targetJdk>${java.version}</targetJdk>
-					<includeTests>false</includeTests>
-					<failOnViolation>true</failOnViolation>
-					<printFailingErrors>true</printFailingErrors>
-					<targetDirectory>${reports.directory}</targetDirectory>
-					<skip>${skip.codecheck}</skip>
-					<rulesets>
-						<ruleset>target/harvester-utils/pmd/gerdi-ruleset.xml</ruleset>
-					</rulesets>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-test-sources</phase>
-						<goals>
-							<goal>${pmd.goal}</goal>
-							<goal>${cpd.goal}</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+				<!-- PMD -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>${pmd.plugin.version}</version>
+					<configuration>
+						<linkXRef>true</linkXRef>
+						<targetJdk>${java.version}</targetJdk>
+						<includeTests>false</includeTests>
+						<failOnViolation>true</failOnViolation>
+						<printFailingErrors>true</printFailingErrors>
+						<targetDirectory>${reports.directory}</targetDirectory>
+						<skip>${skip.codecheck}</skip>
+						<rulesets>
+							<ruleset>target/harvester-utils/pmd/gerdi-ruleset.xml</ruleset>
+						</rulesets>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>process-test-sources</phase>
+							<goals>
+								<goal>${pmd.goal}</goal>
+								<goal>${cpd.goal}</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 
-			<!-- SpotBugs -->
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>${spotbugs.plugin.version}</version>
-				<configuration>
-					<effort>Max</effort>
-					<threshold>Max</threshold>
-					<includeTests>true</includeTests>
-					<failOnError>true</failOnError>
-					<xmlOutput>true</xmlOutput>
-					<xmlOutputDirectory>${reports.directory}</xmlOutputDirectory>
-					<skip>${skip.codecheck}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-test-sources</phase>
-						<goals>
-							<goal>${spotbugs.goal}</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-						<version>${junit.dependency.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.hamcrest</groupId>
-						<artifactId>hamcrest-library</artifactId>
-						<version>${hamcrest.dependency.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+				<!-- SpotBugs -->
+				<plugin>
+					<groupId>com.github.spotbugs</groupId>
+					<artifactId>spotbugs-maven-plugin</artifactId>
+					<version>${spotbugs.plugin.version}</version>
+					<configuration>
+						<effort>Max</effort>
+						<threshold>Max</threshold>
+						<includeTests>true</includeTests>
+						<failOnError>true</failOnError>
+						<xmlOutput>true</xmlOutput>
+						<xmlOutputDirectory>${reports.directory}</xmlOutputDirectory>
+						<skip>${skip.codecheck}</skip>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>process-test-sources</phase>
+							<goals>
+								<goal>${spotbugs.goal}</goal>
+							</goals>
+						</execution>
+					</executions>
+					<dependencies>
+						<dependency>
+							<groupId>junit</groupId>
+							<artifactId>junit</artifactId>
+							<version>${junit.dependency.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hamcrest</groupId>
+							<artifactId>hamcrest-library</artifactId>
+							<version>${hamcrest.dependency.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
 
-			<!-- AStyle Check -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${exec.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>Code Format Check</id>
-						<phase>process-test-sources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<skip>${skip.formattingcheck}</skip>
-							<executable>${project.build.directory}/harvester-utils/scripts/formatting/astyle-check.${script.extension}</executable>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+				<!-- AStyle Check -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>${exec.plugin.version}</version>
+					<executions>
+						<execution>
+							<id>Code Format Check</id>
+							<phase>process-test-sources</phase>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<skip>${skip.formattingcheck}</skip>
+								<executable>${project.build.directory}/harvester-utils/scripts/formatting/astyle-check.${script.extension}</executable>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencies>
