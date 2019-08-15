@@ -310,6 +310,23 @@
 												<ignore></ignore>
 											</action>
 										</pluginExecution>
+										
+										<!-- do not execute Delombok in Eclipse-->
+										<pluginExecution>
+											<pluginExecutionFilter>
+												<groupId>org.projectlombok</groupId>
+												<artifactId>lombok-maven-plugin</artifactId>
+												<versionRange>[${lombok.plugin.version},)</versionRange>
+												<goals>
+													<goal>
+														delombok
+													</goal>
+												</goals>
+											</pluginExecutionFilter>
+											<action>
+												<ignore></ignore>
+											</action>
+										</pluginExecution>
 									</pluginExecutions>
 								</lifecycleMappingMetadata>
 							</configuration>
