@@ -6,7 +6,7 @@
 
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
-	<version>4.0.1-SNAPSHOT</version>
+	<version>4.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
 	<description>This is a parent pom for GeRDI projects. It provides SpotBugs and PMD testing.</description>
@@ -38,7 +38,7 @@
 		<lombok.dependency.version>1.18.4</lombok.dependency.version>
 		<javaxws.dependency.version>2.3.1</javaxws.dependency.version>
 		<spotbugs.annotations.dependency.version>3.1.12</spotbugs.annotations.dependency.version>
-		<harvesterutils.dependency.version>1.5.2</harvesterutils.dependency.version>
+		<harvesterutils.dependency.version>1.5.3-SNAPSHOT</harvesterutils.dependency.version>
 
 		<!-- Misc. Properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -653,7 +653,7 @@
 						<goals>
 							<goal>unpack-dependencies</goal>
 						</goals>
-						<phase>generate-resources</phase>
+						<phase>initialize</phase>
 						<configuration>
 							<!--<includes>setup/**</includes>-->
 							<outputDirectory>${basedir}</outputDirectory>
