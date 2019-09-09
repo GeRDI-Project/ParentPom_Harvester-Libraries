@@ -3,10 +3,10 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 		 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
-	<version>4.0.3</version>
+	<version>4.1.0</version>
+	
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
 	<description>This is a parent pom for GeRDI projects. It provides SpotBugs and PMD testing.</description>
@@ -647,6 +647,12 @@
 										<tempDirectory>${project.build.directory}/jetty</tempDirectory>
 									</webApp>
 									<daemon>false</daemon>
+									<systemProperties>
+										<systemProperty>
+											<name>DEPLOYMENT_TYPE</name>
+											<value>jetty</value>
+										</systemProperty>
+									</systemProperties>
 								</configuration>
 							</execution>
 						</executions>
