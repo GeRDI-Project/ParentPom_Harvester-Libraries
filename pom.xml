@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.gerdi-project</groupId>
 	<artifactId>GeRDI-parent</artifactId>
-	<version>4.1.0</version>
+	<version>4.1.1</version>
 	
 	<packaging>pom</packaging>
 	<name>GeRDI Parent Pom</name>
@@ -40,6 +40,7 @@
 		<lombok.dependency.version>1.18.4</lombok.dependency.version>
 		<slf4j.dependency.version>1.7.25</slf4j.dependency.version>
 		<spotbugs.annotations.dependency.version>3.1.12</spotbugs.annotations.dependency.version>
+		<jcip.annotations.dependency.version>1.0</jcip.annotations.dependency.version>
 
 		<!-- Misc. Properties -->
 		<invalid.script.extensions>*</invalid.script.extensions>
@@ -794,7 +795,14 @@
 			<groupId>com.github.spotbugs</groupId>
 			<artifactId>spotbugs-annotations</artifactId>
 			<version>${spotbugs.annotations.dependency.version}</version>
-			<scope>test</scope>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.jcip</groupId>
+			<artifactId>jcip-annotations</artifactId>
+			<version>${jcip.annotations.dependency.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- required for logging -->
